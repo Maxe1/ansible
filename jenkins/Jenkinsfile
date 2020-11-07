@@ -12,7 +12,7 @@ pipeline {
                 echo " ============== ping nginx host =================="
                 withCredentials([usernamePassword(credentialsId: 'ansible_creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                    sh("""
-                        ansible -m ping -i ./hosts/production nginx -e 'ansible_user=root ansible_password=$PASSWORD'
+                        ansible -m ping -i ./hosts/production nginx -e ansible_password=$PASSWORD
                     """)
                 }
             }
