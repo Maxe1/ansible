@@ -1,0 +1,33 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("ansible ping host") {
+            steps {
+                echo " ============== ping nginx host =================="
+                withCredentials([usernamePassword(credentialsId: 'ansible_creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                   sh("""
+                        ssh root@ansible
+                        ansible -m ping -i ./hosts/production nginx -e ansible_password=$PASSWORD
+                    """)
+                }
+            }
+        }
+        stage('ansible run playbook') { 
+            steps {
+               echo " ============== Ansible playbook run =================="
+               sh "scp -r /var/lib/jenkins/secrets/.env root@ansible:/root/
+                ansiblePlaybook(
+                    vaultCredentialsId: 'AnsibleVault',
+                    inventory: './hosts/production',
+                    playbook: 'main.yml'
+                )
+            }
+        }
+    }
+}
