@@ -20,6 +20,7 @@ pipeline {
         stage('ansible run playbook') { 
             steps {
                echo " ============== Ansible playbook run =================="
+               sh "cp /var/lib/jenkins/secrets/.env ."
                 ansiblePlaybook(
                     vaultCredentialsId: 'AnsibleVault',
                     inventory: './hosts/production',
