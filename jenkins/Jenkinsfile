@@ -10,7 +10,7 @@ pipeline {
         stage("ansible ping host") {
             steps {
                 echo " ============== ping nginx host =================="
-                   sh 'ansible -m ping -i ./nginx/production'
+                   sh 'ansible -m ping -i ./nginx/production nginx'
                 }
         }
         stage('ansible run playbook') { 
