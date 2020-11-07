@@ -15,6 +15,7 @@ pipeline {
                         ansible -m ping -i ./hosts/production nginx -e "ansible_user=$USERNAME ansible_password=$PASSWORD; echo"
                     """)
                 }
+            }
         }
         stage('ansible run playbook') { 
             steps {
