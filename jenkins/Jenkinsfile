@@ -11,7 +11,9 @@ pipeline {
             steps {
                 echo " ============== ping nginx host =================="
                    withCredentials([usernamePassword(credentialsId: 'ansible_creds', usernameVariable: 'ansible_user', passwordVariable: 'ansible_password')])
-                   sh "ansible -m ping -i ./hosts/production nginx -e 'ansible_user=$USERNAME ansible_password=$PASSWORD'"
+                    sh("""
+                    ansible -m ping -i ./hosts/production nginx -e 'ansible_user=$USERNAME ansible_password=$PASSWORD'
+                    """)
                 }
         }
         stage('ansible run playbook') { 
