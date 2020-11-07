@@ -1,0 +1,11 @@
+---
+- name: Install nginx
+  shell:  if yum install nginx | grep -q "is already"; then echo "exist"; else echo "doesn't exist"; fi
+  register: instalation
+
+- name: Skip if nginx exist
+  debug:
+    msg: "Nginx already exist"
+  when: instalation.stdout == "exist"
+
+ 

@@ -1,0 +1,7 @@
+---
+- name: be sure Nginx is running and enabled
+  service:
+    name: "{{application}}"
+    state: started
+    enabled: yes
+  tags: "{{tag}}"

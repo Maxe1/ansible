@@ -1,0 +1,2 @@
+[nginx]
+centos ansible_host=168.119.108.196 ansible_user=root

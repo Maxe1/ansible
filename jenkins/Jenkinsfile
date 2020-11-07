@@ -1,0 +1,23 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("ansible ping host") {
+            steps {
+                echo " ============== ping nginx host =================="
+                   sh 'ansible -m ping -i ./nginx/production'
+                }
+        }
+        stage('ansible run playbook') { 
+            steps {
+               echo " ============== Ansible playbook run =================="
+                    sh 'ansible-playbook main.yml -i ./hosts/production'
+            }
+        }
+    }
+}

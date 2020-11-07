@@ -1,0 +1,5 @@
+---
+#vars for install roles
+application: "nginx"
+path_config: "./roles/copy_config/templates/nginx.conf"
+tag: "nginx"

@@ -1,0 +1,4 @@
+---
+#vars for install apps
+application: "nginx"
+tag: "nginx"

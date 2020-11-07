@@ -1,0 +1,6 @@
+---
+    - hosts: nginx
+      roles: 
+        - install_nginx
+        - copy_config
+        - check_nginx
