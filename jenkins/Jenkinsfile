@@ -10,13 +10,18 @@ pipeline {
         stage("ansible ping host") {
             steps {
                 echo " ============== ping nginx host =================="
-                   sh 'ansible -m ping -i ./nginx/production nginx'
+                   withCredentials([usernamePassword(credentialsId: 'ansible_creds', usernameVariable: 'ansible_user', passwordVariable: 'ansible_password')])
+                   sh 'ansible -m ping -i ./nginx/production nginx -e "ansible_user=$USERNAME ansible_password=$PASSWORD'
                 }
         }
         stage('ansible run playbook') { 
             steps {
                echo " ============== Ansible playbook run =================="
-                    sh 'ansible-playbook main.yml -i ./hosts/production'
+                ansiblePlaybook(
+                    vaultCredentialsId: 'AnsibleVault',
+                    inventory: './hosts/production',
+                    playbook: 'main.yml'
+                )
             }
         }
     }
